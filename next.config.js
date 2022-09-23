@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  basePath: '/nextjs-blog-markdown',
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
