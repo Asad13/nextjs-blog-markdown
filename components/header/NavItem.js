@@ -33,7 +33,7 @@ const NavItem = ({navitem,mobile}) => {
                     {open && <Dropdown items={navitem.dropdowns} open={open}/>}
                 </li>) :
                 (<li>
-                    <Link href={navitem.path}>
+                    <Link href={navitem.slug}>
                         <a className="block lg:inline-block border-b-2 border-cyan-900 lg:border-0 px-4 h-14 leading-[56px] hover:bg-slate-700 hover:text-slate-200 transition-all duration-200 font-semibold">{navitem.title}
                         </a>
                     </Link>

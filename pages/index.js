@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import background from '../public/images/background.jpg';
-import PostCard from '../components/home/PostCard';
+import PostCard from '../components/utils/PostCard';
 import {getSortedPostsData} from '../lib/posts';
 
 // temp
@@ -41,7 +41,7 @@ export default function Home({posts}) {
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold py-6 antialiased text-center">Top Posts</h2>
           <div className="flex justify-around items-center flex-col md:flex-row flex-wrap">
             {
-              posts.map(post => <PostCard key={post.slug} post={post} />)
+              posts.map(post => <PostCard key={post.id} post={post} />)
             }
             <PostCard post={post} />
             <PostCard post={post} />
@@ -57,16 +57,12 @@ export default function Home({posts}) {
           </div>
         </section>
       </main>
-      {/* Subscription Section*/}
-      <section>
-
-      </section>
     </>
   )
 }
 
 export async function getStaticProps(){
-  const posts = getSortedPostsData();
+  const posts = getSortedPostsData('top');
   return {
     props: {
       posts

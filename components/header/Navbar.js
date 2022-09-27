@@ -24,7 +24,7 @@ const Navbar = () => {
             </span>
             <ul ref={nav} className={drawerOpen ? "fixed top-[56px] left-0 flex flex-col w-[100%] h-auto bg-slate-200  border-0 border-t-4 border-cyan-900" : "hidden lg:flex"}>
                 {
-                    navitems.map(navitem => <NavItem key={navitem.path} navitem={navitem} mobile={drawerOpen} />)
+                    navitems.map(navitem => <NavItem key={navitem.slug} navitem={navitem} mobile={drawerOpen} />)
                 }
             </ul>
         </nav>

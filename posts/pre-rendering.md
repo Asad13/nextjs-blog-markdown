@@ -3,6 +3,9 @@ title: 'Two Forms of Pre-rendering'
 date: '2022-09-21'
 src: '/images/blog/japan.jpg'
 alt: 'Japan'
+top: true
+recent: false
+category: 'frontend'
 ---
 Next.js has two forms of pre-rendering
 <!-- end -->

@@ -1,34 +1,47 @@
 const navitems = [
     {
-        path: "web",
+        slug: "web",
         title: "Web Development",
         dropdowns: [
             {
-                path: "frontend",
+                slug: "frontend",
                 title: "Frontend Development",
             },
             {
-                path: "backend",
+                slug: "backend",
                 title: "Backend Development",
             }
         ]
     },
     {
-        path: "mobile",
+        slug: "mobile",
         title: "Mobile Development",
     },
     {
-        path: "devops",
+        slug: "devops",
         title: "DevOps",
     },
     {
-        path: "cloud",
+        slug: "cloud",
         title: "Cloud Computing",
     },
     {
-        path: "database",
+        slug: "database",
         title: "Database",
     }
 ];
+
+export function getCategories(){
+    const categories = [];
+    for(let i = 0; i < navitems.length;i++){
+        if(navitems[i].hasOwnProperty('dropdowns')){
+            categories.push(...navitems[i].dropdowns)
+        }else{
+            categories.push(navitems[i])
+        }
+    }
+
+    return categories;
+}
 
 export default navitems;

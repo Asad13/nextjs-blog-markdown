@@ -3,6 +3,9 @@ title: 'When to Use Static Generation v.s. Server-side Rendering'
 date: '2022-09-22'
 src: '/images/blog/japan.jpg'
 alt: 'Japan'
+top: true
+recent: false
+category: 'frontend'
 ---
 We recommend using Static Generation
 <!-- end -->
