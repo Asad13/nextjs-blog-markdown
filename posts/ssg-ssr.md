@@ -1,8 +1,8 @@
 ---
-title: 'When to Use Static Generation v.s. Server-side Rendering'
+title: 'Static Generation v.s. Server-side Rendering'
 date: '2022-09-22'
 src: '/images/blog/japan.jpg'
-alt: 'Japan'
+alt: 'ssg-ssr'
 top: true
 recent: false
 category: 'frontend'

@@ -4,17 +4,7 @@ import background from '../public/images/background.jpg';
 import PostCard from '../components/utils/PostCard';
 import {getSortedPostsData} from '../lib/posts';
 
-// temp
-const post = {
-  slug: "first-blog",
-  src: '/images/blog/japan.jpg',
-  alt: "Japan",
-  title: "Two Forms of Pre-rendering",
-  date: '2022-09-20',
-  excerpt: 'Next.js has two forms of pre-rendering'
-}
-
-export default function Home({posts}) {
+export default function Home({posts,recentPosts}) {
   return (
     <>
       <Head>
@@ -39,21 +29,18 @@ export default function Home({posts}) {
       <main className="container mx-auto px-6 py-4 md:px-8 lg:px-10">
         <section>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold py-6 antialiased text-center">Top Posts</h2>
-          <div className="flex justify-around items-center flex-col md:flex-row flex-wrap">
+          <div className="flex justify-around items-stretch flex-col md:flex-row flex-wrap">
             {
               posts.map(post => <PostCard key={post.id} post={post} />)
             }
-            <PostCard post={post} />
-            <PostCard post={post} />
           </div>
         </section>
         <section className="py-4">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold py-6 antialiased text-center">Recent Posts</h2>
           <div className="flex justify-around items-center flex-col md:flex-row flex-wrap">
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
+            {
+              recentPosts.map(post => <PostCard key={post.id} post={post} />)
+            }
           </div>
         </section>
       </main>
@@ -63,9 +50,11 @@ export default function Home({posts}) {
 
 export async function getStaticProps(){
   const posts = getSortedPostsData('top');
+  const recentPosts = getSortedPostsData('recent');
   return {
     props: {
-      posts
+      posts,
+      recentPosts
     }
   }
 }
