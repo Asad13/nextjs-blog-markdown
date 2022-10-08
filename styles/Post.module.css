@@ -24,7 +24,12 @@
     margin-top: -0.5rem;
 }
 
-.post ul li{
+.post ol{
+    list-style-type: decimal;
+    margin-top: -0.5rem;
+}
+
+.post li{
     margin-left: 2rem;
     margin-bottom: 4px;
 }
