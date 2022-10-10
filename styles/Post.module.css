@@ -34,6 +34,14 @@
     margin-bottom: 4px;
 }
 
+.post code{
+    display: block;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background-color: #DDF7F8;
+    border-radius: 7px;
+}
+
 @media only screen and (max-width: 600px){
     .post h2{
         font-size: 23px;
