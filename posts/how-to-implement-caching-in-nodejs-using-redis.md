@@ -3,7 +3,7 @@ title: 'How To Implement Caching in Node.js Using Redis'
 date: '2022-10-08'
 src: '/images/blog/japan.jpg'
 alt: 'How To Implement Caching in Node.js Using Redis'
-top: false
+top: true
 recent: false
 category: 'database'
 ---

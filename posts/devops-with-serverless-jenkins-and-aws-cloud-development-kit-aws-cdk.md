@@ -3,7 +3,7 @@ title: 'DevOps with serverless Jenkins and AWS Cloud Development Kit'
 date: '2022-09-21'
 src: '/images/blog/japan.jpg'
 alt: 'Japan'
-top: true
+top: false
 recent: false
 category: 'devops'
 ---
