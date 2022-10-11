@@ -8,7 +8,17 @@
     "url": "https://asad13.github.io"
   },
   "description": "A Blog using Next.js and Tailwind CSS. Blog Articles are stored as Markdown Files.",
-  "keywords": ["nextjs","tailwindcss", "react", "blog", "markdown", "gray-matter", "remark", "yaml", "@svgr/webpack"],
+  "keywords": [
+    "nextjs",
+    "tailwindcss",
+    "react",
+    "blog",
+    "markdown",
+    "gray-matter",
+    "remark",
+    "yaml",
+    "@svgr/webpack"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -30,6 +40,7 @@
   "devDependencies": {
     "@svgr/webpack": "^6.3.1",
     "autoprefixer": "^10.4.8",
+    "cssnano": "^5.1.13",
     "eslint": "8.23.0",
     "eslint-config-next": "12.3.0",
     "postcss": "^8.4.16",
