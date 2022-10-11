@@ -40,16 +40,21 @@
     margin: 0.5rem 0;
     background-color: #DDF7F8;
     border-radius: 7px;
+    overflow-x: auto;
 }
 
 @media only screen and (max-width: 600px){
     .post h2{
         font-size: 23px;
-        text-align: center;
     }
     
     .post h3{
         font-size: 17px;
-        text-align: center;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .post code{
+        background-color: #202124;
     }
 }

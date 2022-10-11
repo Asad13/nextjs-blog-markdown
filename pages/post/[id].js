@@ -11,7 +11,7 @@ const Post = ({postData}) => {
                 <title>{`Asad's Notes | ${postData.title}`}</title>
                 <meta name="description" content={postData.title} />
             </Head>
-            <main className="container mx-auto px-6 py-4 md:px-8 lg:px-40 2xl:px-[12%]">
+            <main className="container mx-auto px-4 py-4 md:px-6 lg:px-40 2xl:px-[12%]">
                 <h1 className="text-amber-400 font-black text-center mb-4 text-lg md:text-2xl lg:text-3xl antialiased">
                     {postData.title}
                 </h1>

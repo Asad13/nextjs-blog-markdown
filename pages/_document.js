@@ -4,7 +4,6 @@ export default function Document(){
     return (
         <Html lang="en">
             <Head>
-                <meta charSet='UTF-8' />
                 <meta name='subject' content='technology and programming blog' />
                 <meta name='author' content='Asad Mujumder, asaduzzaman.anik.me@gmail.com' />
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
