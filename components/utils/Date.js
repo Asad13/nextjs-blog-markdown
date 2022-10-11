@@ -4,7 +4,7 @@ const FormattedDate = ({dateString })=> {
     const date = new Date(dateString);
     const formattedDate = `${months[date.getMonth()]} ${date.getDate()},${date.getFullYear()}`
     return (
-        <time dateTime={dateString ?? ""} className="inline-block py-1 px-4 bg-slate-200 rounded-2xl text-sm">
+        <time dateTime={dateString ?? ""} className="inline-block py-1 px-4 bg-slate-200 dark:text-slate-800 rounded-2xl text-sm">
             {formattedDate ?? ''}
         </time>
     )

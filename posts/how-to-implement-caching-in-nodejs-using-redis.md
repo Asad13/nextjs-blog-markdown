@@ -650,3 +650,241 @@ To use middleware in your application for caching, you will modify the getSpecie
 When you visit the /fish/:species endpoint, the middleware function will run first to search for data in the cache; if found, it will return a response, and the getSpeciesData function won’t run. However, if the middleware does not find the data in the cache, it will call the getSpeciesData function to fetch data from API and store it in Redis.
 
 First, open your server.js:
+
+`nano server.js`
+
+Next, remove the highlighted code:
+
+```
+fish_wiki/server.js
+...
+async function getSpeciesData(req, res) {
+  const species = req.params.species;
+  let results;
+  let isCached = false;
+
+  try {
+    const cacheResults = await redisClient.get(species);
+    if (cacheResults) {
+      isCached = true;
+      results = JSON.parse(cacheResults);
+    } else {
+      results = await fetchApiData(species);
+      if (results.length === 0) {
+        throw "API returned an empty array";
+      }
+      await redisClient.set(species, JSON.stringify(results), {
+        EX: 180,
+        NX: true,
+      });
+    }
+
+    res.send({
+      fromCache: isCached,
+      data: results,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(404).send("Data unavailable");
+  }
+}
+...
+```
+
+In the getSpeciesData() function, you remove all the code that looks for data stored in Redis. You also remove the isCached variable since the function getSpeciesData() function will only fetch data from the API and store it in Redis.
+
+Once the code has been removed, set fromCache to false as highlighted below, so the getSpeciesData() function will look like the following:
+
+```
+fish_wiki/server.js
+...
+async function getSpeciesData(req, res) {
+  const species = req.params.species;
+  let results;
+
+  try {
+    results = await fetchApiData(species);
+    if (results.length === 0) {
+      throw "API returned an empty array";
+    }
+    await redisClient.set(species, JSON.stringify(results), {
+      EX: 180,
+      NX: true,
+    });
+
+    res.send({
+      fromCache: false,
+      data: results,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(404).send("Data unavailable");
+  }
+}
+...
+```
+
+The getSpeciesData() function retrieves the data from API, stores it in the cache, and returns a response to the user.
+
+Next, add the following code to define the middleware function for caching data in Redis:
+
+```
+fish_wiki/server.js
+...
+async function cacheData(req, res, next) {
+  const species = req.params.species;
+  let results;
+  try {
+    const cacheResults = await redisClient.get(species);
+    if (cacheResults) {
+      results = JSON.parse(cacheResults);
+      res.send({
+        fromCache: true,
+        data: results,
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(404);
+  }
+}
+
+async function getSpeciesData(req, res) {
+...
+}
+...
+```
+
+The cacheData() middleware function takes three arguments: req, res, and next. In the try block, the function checks if the value in the species variable has data stored in Redis under its key. If the data is in Redis, it is returned and set to the cacheResults variable.
+
+Next, the if statement checks if cacheResults has data. The data is saved in the results variable if it evaluates to true. After that, the middleware uses the send() method to return an object with the properties fromCache set to true and data set to the results variable.
+
+However, if the if statement evaluates to false, execution switches to the else block. Within the else block, you call next(), which passes control to the next function that should execute after it.
+
+To make the cacheData() middleware pass control to the getSpeciesData() function when next() is invoked, update the express module’s get() method accordingly:
+
+```
+fish_wiki/server.js
+...
+app.get("/fish/:species", cacheData, getSpeciesData);
+...
+```
+
+The get() method now takes cacheData as its second argument, which is the middleware that looks for data cached in Redis and returns a response when found.
+
+Now, when you visit the /fish/:species endpoint, cacheData() executes first. If data is cached, it will return the response, and the request-response cycle ends here. However, if no data is found in the cache, the getSpeciesData() will be called to retrieve data from API, store it in the cache, and return a response.
+
+The complete file will now look like this:
+
+```
+fish_wiki/server.js
+
+const express = require("express");
+const axios = require("axios");
+const redis = require("redis");
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+let redisClient;
+
+(async () => {
+  redisClient = redis.createClient();
+
+  redisClient.on("error", (error) => console.error(`Error : ${error}`));
+
+  await redisClient.connect();
+})();
+
+async function fetchApiData(species) {
+  const apiResponse = await axios.get(
+    `https://www.fishwatch.gov/api/species/${species}`
+  );
+  console.log("Request sent to the API");
+  return apiResponse.data;
+}
+
+async function cacheData(req, res, next) {
+  const species = req.params.species;
+  let results;
+  try {
+    const cacheResults = await redisClient.get(species);
+    if (cacheResults) {
+      results = JSON.parse(cacheResults);
+      res.send({
+        fromCache: true,
+        data: results,
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(404);
+  }
+}
+async function getSpeciesData(req, res) {
+  const species = req.params.species;
+  let results;
+
+  try {
+    results = await fetchApiData(species);
+    if (results.length === 0) {
+      throw "API returned an empty array";
+    }
+    await redisClient.set(species, JSON.stringify(results), {
+      EX: 180,
+      NX: true,
+    });
+
+    res.send({
+      fromCache: false,
+      data: results,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(404).send("Data unavailable");
+  }
+}
+
+app.get("/fish/:species", cacheData, getSpeciesData);
+
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
+});
+```
+Save and exit your file.
+
+To test the caching properly, you can delete the red-snapper key in Redis. To do that, go into the Redis client:
+`redis-cli`
+
+Remove the red-snapper key:
+`del red-snapper`
+
+Exit the Redis client:
+`exit`
+
+Now, run the server.js file:
+`node server.js`
+
+Once the server starts, go back to the browser and visit the http://localhost:3000/fish/red-snapper again. Refresh it multiple times.
+
+The terminal will log the message that a request was sent to the API. The cacheData() middleware will serve all requests for the next three minutes. Your output will look similar to this if you randomly refresh the URL in a four-minute timespan:
+```
+Output
+App listening on port 3000
+Request sent to the API
+Request sent to the API
+The behavior is consistent with how the application worked in the previous section.
+```
+
+You can now cache data in Redis using middleware.
+
+## Conclusion
+In this article, you built an application that fetches data from an API and returns the data as a response to the client. You then modified the app to cache the API response in Redis on the initial visit and serve the data from the cache for all subsequent requests. You modified that cache duration to expire after a certain amount of time has passed, and then you used middleware to handle the cache data retrieval.
+
+As a next step, you can explore the Node Redis documentation to learn more about the features available in the node-redis module. You can also read the Axios and Express documentation for a deeper look into the topics covered in this tutorial.
+
+To continue building your Node.js skill, see How To Code in Node.js series.

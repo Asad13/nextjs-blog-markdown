@@ -4,7 +4,8 @@ import GithubIcon from './github.svg';
 import YouTubeIcon from './youtube.svg';
 import LinkedInIcon from './linkedin-in.svg';
 
-const icons = [{
+const icons = [
+    {
         link: "https://www.facebook.com/profile.php?id=100017905668768",
         element: FacebookIcon
     },

@@ -3,7 +3,7 @@ import icons from '../icons/svgs/social/socialIcons';
 
 const Footer = () => {
     return (
-        <footer className="bg-slate-200 py-4">
+        <footer className="bg-slate-200 dark:bg-slate-800 py-4">
             <div>
                 <h3 className="font-700 text-lg md:text-xl text-center mb-2">Follow Me On</h3>
                 <div className="flex justify-center items-center">

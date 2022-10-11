@@ -11,7 +11,7 @@ const Dropdown = ({items,open}) => {
         }
     },[open]);
     return (
-        <ul ref={el} className={`lg:absolute max-h-0 overflow-hidden flex flex-col bg-slate-200  lg:border-t-4 lg:border-cyan-900 transition-all duration-[350ms]`}>
+        <ul ref={el} className={`lg:absolute max-h-0 overflow-hidden flex flex-col bg-slate-200 dark:bg-slate-800 lg:border-t-4 lg:border-cyan-900 transition-all duration-[350ms]`}>
             {
                 items.map(item => (
                     <li key={item.slug}>
